@@ -1,16 +1,22 @@
-import { StrictMode } from 'react';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
 import './index.css';
-import App from './App.jsx';
 
-const rootElement = document.getElementById('root');
+const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
-if (rootElement) {
-  createRoot(rootElement).render(
-    <StrictMode>
-      <App />
-    </StrictMode>
-  );
-} else {
-  console.error('❌ Root element not found');
-}
+createRoot(document.getElementById('root')).render(
+  <GoogleOAuthProvider clientId={clientId}>
+    <React.StrictMode>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </BrowserRouter>
+    </React.StrictMode>
+  </GoogleOAuthProvider>
+);
